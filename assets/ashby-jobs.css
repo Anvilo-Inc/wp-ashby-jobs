@@ -1,0 +1,448 @@
+/**
+ * Ashby Jobs Plugin Styles
+ */
+
+/* Container - Unified block containing both filters and jobs */
+.ashby-jobs-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0;
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+  background: white;
+
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+}
+
+/* Jobs List - Simple Layout */
+.ashby-jobs-list {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  box-shadow: none;
+  border: none;
+}
+
+/* Job Items - Simple List Style */
+.ashby-job-card {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+  min-height: 80px;
+  align-items: center;
+}
+
+.ashby-job-card:last-child {
+  border-bottom: none;
+}
+
+.ashby-job-card:hover {
+  background-color: #f8f9fa;
+}
+
+.ashby-job-card-content {
+  padding: 1.5rem 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Job Title - Clean and Simple */
+.ashby-job-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #000;
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+  text-align: center;
+}
+
+.ashby-job-title a {
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+  padding: 0;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ashby-job-title a:hover {
+  color: var(--color-blue, #176cd9);
+}
+
+/* Job Meta Line - Shows department, location, type, remote status */
+.ashby-job-meta-line {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-near-black, #666);
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Hide all other elements for simple design */
+.ashby-job-header {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ashby-job-department,
+.ashby-job-meta,
+.ashby-job-description,
+.ashby-job-compensation,
+.ashby-job-actions {
+  display: none;
+}
+
+/* Filters Section - Integrated into unified container */
+.ashby-jobs-filters {
+  background: transparent;
+  border-radius: 0;
+  padding: 1rem;
+  margin-bottom: 0;
+  box-shadow: none;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ashby-jobs-filters-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.ashby-jobs-filters-row.ashby-filters-row-2 {
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 1.5rem;
+}
+
+.ashby-jobs-filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.ashby-jobs-filter-label {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-black, #000);
+  font-size: 1rem;
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+}
+
+.ashby-jobs-filter,
+.ashby-jobs-search {
+  padding: 1rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: white;
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+  color: #333;
+}
+
+.ashby-jobs-filter[type="select-one"],
+select.ashby-jobs-filter {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px;
+  padding-right: 2.5rem;
+  appearance: none;
+}
+
+.ashby-jobs-filter:focus,
+.ashby-jobs-search:focus {
+  outline: none;
+  border-color: var(--color-blue, #176cd9);
+  box-shadow: 0 0 0 3px rgba(23, 108, 217, 0.08);
+  background: #fafbfc;
+}
+
+.ashby-jobs-filter:hover,
+.ashby-jobs-search:hover {
+  border-color: #d0d0d0;
+}
+
+.ashby-jobs-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #333;
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+  min-height: 48px;
+  margin-top: 1.75rem;
+}
+
+.ashby-jobs-checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--color-blue, #176cd9);
+}
+
+.ashby-jobs-clear-btn {
+  background: white;
+  border: 1px solid #e0e0e0;
+  color: var(--color-black, #333);
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ashby-jobs-clear-btn:hover {
+  background: #f8f9fa;
+  border-color: #d0d0d0;
+  color: var(--color-blue, #176cd9);
+}
+
+.ashby-jobs-results-count {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid #f0f0f0;
+  font-size: 1rem;
+  color: var(--color-near-black, #666);
+  font-family: var(--font-primary, 'benton-sans', sans-serif);
+}
+
+/* Loading States */
+.ashby-jobs-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+  color: var(--color-near-black, #666);
+}
+
+.ashby-jobs-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f0f0f0;
+  border-top: 3px solid var(--color-blue, #176cd9);
+  border-radius: 50%;
+  animation: ashby-spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes ashby-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty State */
+.ashby-jobs-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--color-near-black, #666);
+  background: transparent;
+  border-radius: 0;
+}
+
+.ashby-jobs-empty p {
+  margin: 0 0 1rem 0;
+}
+
+.ashby-jobs-empty p:last-child {
+  margin-bottom: 0;
+}
+
+/* Error State */
+.ashby-jobs-error {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  color: #c53030;
+  padding: 2rem;
+  border-radius: 6px;
+  text-align: center;
+  margin: 2rem;
+}
+
+/* Integration with existing IA Collaborative styles */
+.b-careers .ashby-jobs-container {
+  width: 100%;
+  max-width: none;
+  margin: 2rem 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .ashby-jobs-container {
+    border-radius: 6px;
+  }
+
+  .ashby-jobs-filters {
+    padding: 1rem;
+  }
+
+  .ashby-jobs-filters-row,
+  .ashby-jobs-filters-row.ashby-filters-row-2 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .ashby-jobs-checkbox-label {
+    margin-top: 0.75rem;
+  }
+
+  .ashby-jobs-list {
+    width: 100%;
+  }
+
+  .ashby-job-card-content {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .ashby-job-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .ashby-jobs-container {
+    border-radius: 4px;
+  }
+
+  .ashby-jobs-filters {
+    padding: 1rem;
+  }
+
+  .ashby-job-card-content {
+    padding: 1rem 1.25rem;
+  }
+
+  .ashby-job-title {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+}
+
+/* Animation for job items appearing */
+.ashby-job-card {
+  opacity: 0;
+  animation: ashby-fade-in 0.5s ease forwards;
+}
+
+.ashby-job-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.ashby-job-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ashby-job-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.ashby-job-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.ashby-job-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+@keyframes ashby-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply Button Styles */
+.ashby-job-actions {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.ashby-job-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-blue, #176cd9);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.ashby-job-apply-btn:hover {
+  background: #1357b3;
+  color: white;
+}
+
+.ashby-job-apply-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Pagination */
+.ashby-jobs-pagination {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.ashby-jobs-load-more {
+  background: transparent;
+  border: 1px solid var(--color-blue, #176cd9);
+  color: var(--color-blue, #176cd9);
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.ashby-jobs-load-more:hover {
+  background: var(--color-blue, #176cd9);
+  color: white;
+}
+
+/* Typography hierarchy */
+.ashby-job-title {
+  font-family: var(--font-primary, 'benton-sans', Helvetica, Arial, sans-serif);
+}
+
+.ashby-job-department {
+  font-family: var(--font-primary, 'benton-sans', Helvetica, Arial, sans-serif);
+}
+
+.ashby-job-meta span {
+  font-family: var(--font-primary, 'benton-sans', Helvetica, Arial, sans-serif);
+}

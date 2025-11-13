@@ -1,0 +1,507 @@
+/**
+ * Ashby Jobs Admin Styles
+ * WordPress admin interface styling
+ */
+
+/* Settings Page Layout */
+.ashby-jobs-admin-wrapper {
+}
+
+.ashby-jobs-admin-wrapper h1 {
+  margin-bottom: 20px;
+}
+
+.ashby-jobs-admin-wrapper .form-table {
+  margin-top: 20px;
+}
+
+.ashby-jobs-admin-wrapper .form-table th {
+  width: 200px;
+  font-weight: 600;
+}
+
+.ashby-jobs-admin-wrapper .form-table td {
+  padding: 15px 10px;
+}
+
+.ashby-jobs-admin-wrapper .description {
+  margin-top: 5px;
+  font-style: italic;
+  color: #666;
+}
+
+/* Tools Section */
+.ashby-jobs-tools {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.ashby-jobs-tools h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.ashby-jobs-tools form {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.ashby-jobs-tools .description {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Status Indicators */
+.ashby-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ashby-status-indicator.success {
+  color: #46b450;
+}
+
+.ashby-status-indicator.error {
+  color: #dc3232;
+}
+
+.ashby-status-indicator.warning {
+  color: #ffb900;
+}
+
+.ashby-status-indicator::before {
+  content: "●";
+  font-size: 16px;
+}
+
+/* Input Styling */
+.ashby-jobs-admin-wrapper input[type="text"],
+.ashby-jobs-admin-wrapper input[type="number"],
+.ashby-jobs-admin-wrapper select {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.ashby-jobs-admin-wrapper input[type="text"]:focus,
+.ashby-jobs-admin-wrapper input[type="number"]:focus,
+.ashby-jobs-admin-wrapper select:focus {
+  border-color: #0073aa;
+  box-shadow: 0 0 0 1px #0073aa;
+  outline: none;
+}
+
+/* Checkbox Styling */
+.ashby-jobs-admin-wrapper input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.ashby-jobs-admin-wrapper label {
+  font-weight: 500;
+}
+
+/* Usage Section */
+.ashby-usage-section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.ashby-usage-section h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.ashby-usage-section code {
+  background: #f1f1f1;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 13px;
+}
+
+.ashby-usage-section ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.ashby-usage-section li {
+  margin-bottom: 8px;
+}
+
+/* Notice Styling */
+.notice.ashby-notice {
+  border-left-width: 4px;
+  border-left-style: solid;
+  padding: 12px;
+  margin: 15px 0;
+}
+
+.notice.ashby-notice.notice-success {
+  border-left-color: #46b450;
+  background-color: #ecf7ed;
+}
+
+.notice.ashby-notice.notice-error {
+  border-left-color: #dc3232;
+  background-color: #f9e6e6;
+}
+
+.notice.ashby-notice.notice-warning {
+  border-left-color: #ffb900;
+  background-color: #fff8e5;
+}
+
+/* Settings Sections */
+.ashby-settings-section {
+  background: #fff;
+  border: 1px solid #ddd;
+  margin: 20px 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+}
+
+.ashby-settings-section h3 {
+  margin: 0;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background: #f9f9f9;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ashby-settings-section .inside {
+  padding: 20px;
+}
+
+/* API Status Widget */
+.ashby-api-status {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.ashby-api-status h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ashby-api-status .status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.ashby-api-status .status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ashby-api-status .status-item:last-child {
+  border-bottom: none;
+}
+
+.ashby-api-status .status-label {
+  font-weight: 500;
+  color: #23282d;
+}
+
+.ashby-api-status .status-value {
+  color: #666;
+  font-size: 13px;
+}
+
+/* Cache Status */
+.ashby-cache-status {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+
+.ashby-cache-status.cache-valid {
+  background: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.ashby-cache-status.cache-stale {
+  background: #fff3cd;
+  border-color: #ffeaa7;
+  color: #856404;
+}
+
+.ashby-cache-status.cache-empty {
+  background: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+/* Button Overrides */
+.button.ashby-button-primary {
+  background: #0073aa;
+  border-color: #0073aa;
+  color: #fff;
+}
+
+.button.ashby-button-primary:hover {
+  background: #005a87;
+  border-color: #005a87;
+}
+
+.button.ashby-button-secondary {
+  background: #f7f7f7;
+  border-color: #ccd0d4;
+  color: #2c3338;
+}
+
+.button.ashby-button-secondary:hover {
+  background: #f1f1f1;
+  border-color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ashby-jobs-tools form {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .ashby-api-status .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ashby-jobs-admin-wrapper .form-table th,
+  .ashby-jobs-admin-wrapper .form-table td {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .ashby-jobs-admin-wrapper .form-table th {
+    border-bottom: none;
+    padding-bottom: 5px;
+  }
+}
+
+/* Loading States */
+.ashby-admin-loading {
+  position: relative;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.ashby-admin-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #0073aa;
+  border-radius: 50%;
+  animation: ashby-admin-spin 1s linear infinite;
+}
+
+@keyframes ashby-admin-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Debug Information */
+.ashby-debug-info {
+  background: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 15px 0;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+  color: #666;
+}
+
+.ashby-debug-info h4 {
+  margin: 0 0 10px 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #23282d;
+}
+
+.ashby-debug-info pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.ashby-admin-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.ashby-sidebar {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ashby-sidebar-section {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.ashby-sidebar-section:last-child {
+  border-bottom: none;
+}
+
+.ashby-sidebar h3 {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  color: #23282d;
+}
+
+.ashby-sidebar h4 {
+  margin: 15px 0 10px 0;
+  font-size: 14px;
+  color: #23282d;
+}
+
+.ashby-main-content {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.status-list {
+  margin: 15px 0;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  font-weight: 600;
+  color: #23282d;
+  font-size: 13px;
+}
+
+.status-value {
+  color: #666;
+  font-size: 13px;
+}
+
+.ashby-tools {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.ashby-tools .button {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.ashby-usage-examples {
+  margin: 15px 0;
+}
+
+.usage-example {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.usage-example h4 {
+  margin: 0 0 5px 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.usage-example code {
+  background: #fff;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: block;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+  border: 1px solid #ddd;
+}
+
+.ashby-parameters ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.ashby-parameters li {
+  background: #f9f9f9;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  border-left: 3px solid #0073aa;
+}
+
+.ashby-parameters strong {
+  color: #23282d;
+}
+
+@media (max-width: 1200px) {
+  .ashby-admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ashby-main-content {
+    order: 1;
+  }
+
+  .ashby-sidebar {
+    order: 2;
+  }
+}
