@@ -2,6 +2,9 @@
 
 /**
  * Ashby Jobs AJAX Handler
+ *
+ * @package AshbyJobs
+ * @since 1.0.0
  */
 
 // Prevent direct access
@@ -9,12 +12,15 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-class AshbyJobsAjax
+/**
+ * Handles all AJAX requests for job filtering, refreshing, and pagination.
+ *
+ * Provides endpoints for both authenticated and public users.
+ *
+ * @since 1.0.0
+ */
+final class AshbyJobsAjax
 {
-
-  /**
-   * Constructor
-   */
   public function __construct()
   {
     // Public and private AJAX hooks
@@ -28,10 +34,7 @@ class AshbyJobsAjax
     add_action('wp_ajax_nopriv_ashby_load_more_jobs', array($this, 'load_more_jobs'));
   }
 
-  /**
-   * Filter jobs via AJAX
-   */
-  public function filter_jobs()
+  public function filter_jobs(): void
   {
     // Verify nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ashby_jobs_nonce')) {
@@ -104,10 +107,7 @@ class AshbyJobsAjax
     }
   }
 
-  /**
-   * Refresh jobs data via AJAX
-   */
-  public function refresh_jobs()
+  public function refresh_jobs(): void
   {
     // Verify nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ashby_jobs_nonce')) {
@@ -151,10 +151,7 @@ class AshbyJobsAjax
     }
   }
 
-  /**
-   * Load more jobs via AJAX (pagination)
-   */
-  public function load_more_jobs()
+  public function load_more_jobs(): void
   {
     // Verify nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'ashby_jobs_nonce')) {
@@ -220,11 +217,9 @@ class AshbyJobsAjax
   }
 
   /**
-   * Get filter parameters from POST data
-   *
-   * @return array Filter parameters
+   * @return array<string, mixed>
    */
-  private function get_filter_parameters()
+  private function get_filter_parameters(): array
   {
     // This private helper is only called by filter_jobs and load_more_jobs after nonce verification.
     // Therefore, phpcs:ignore for WordPress.Security.NonceVerification.Missing is appropriate here.
@@ -244,13 +239,9 @@ class AshbyJobsAjax
   }
 
   /**
-   * Render a job card (duplicate from shortcode for AJAX)
-   *
-   * @param array $job Job data
-   * @param bool $show_compensation Whether to show compensation
-   * @param bool $show_job_meta Whether to show job metadata
+   * @param array<string, mixed> $job
    */
-  private function render_job_card($job, $show_compensation = false, $show_job_meta = false)
+  private function render_job_card(array $job, bool $show_compensation = false, bool $show_job_meta = false): void
   {
 ?>
     <div class="ashby-job-card"
@@ -362,11 +353,9 @@ class AshbyJobsAjax
   }
 
   /**
-   * Render compensation information
-   *
-   * @param array $compensation Compensation data
+   * @param array<string, mixed> $compensation
    */
-  private function render_compensation($compensation)
+  private function render_compensation(array $compensation): void
   {
     if (isset($compensation['compensationTierSummary'])) {
       echo '<strong>' . esc_html__('Compensation:', 'ashby-jobs') . '</strong> ';
@@ -374,10 +363,7 @@ class AshbyJobsAjax
     }
   }
 
-  /**
-   * Render no jobs message
-   */
-  private function render_no_jobs_message()
+  private function render_no_jobs_message(): void
   {
   ?>
     <div class="ashby-jobs-empty">

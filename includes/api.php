@@ -2,6 +2,9 @@
 
 /**
  * Ashby Jobs API Handler
+ *
+ * @package AshbyJobs
+ * @since 1.0.0
  */
 
 // Prevent direct access
@@ -9,50 +12,36 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-class AshbyJobsAPI
+/**
+ * Handles all communication with the Ashby ATS API.
+ *
+ * Provides methods for fetching, filtering, and caching job postings
+ * from the Ashby public API.
+ *
+ * @since 1.0.0
+ */
+final class AshbyJobsAPI
 {
+  public const string API_BASE_URL = 'https://api.ashbyhq.com/posting-api/job-board';
+  public const string CACHE_KEY = 'ashby_jobs_data';
 
-  /**
-   * API base URL
-   */
-  const API_BASE_URL = 'https://api.ashbyhq.com/posting-api/job-board';
+  private readonly string $client_name;
+  private readonly int $cache_duration;
+  private readonly bool $include_compensation;
 
-  /**
-   * Transient key for caching
-   */
-  const CACHE_KEY = 'ashby_jobs_data';
-
-  /**
-   * Client name
-   */
-  private $client_name;
-
-  /**
-   * Cache duration
-   */
-  private $cache_duration;
-
-  /**
-   * Include compensation
-   */
-  private $include_compensation;
-
-  /**
-   * Constructor
-   */
   public function __construct()
   {
     $this->client_name = get_option('ashby_jobs_client_name', '');
-    $this->cache_duration = get_option('ashby_jobs_cache_duration', 86400); // Default to 1 day
-    $this->include_compensation = get_option('ashby_jobs_include_compensation', false);
+    $this->cache_duration = (int) get_option('ashby_jobs_cache_duration', 86400);
+    $this->include_compensation = (bool) get_option('ashby_jobs_include_compensation', false);
   }
 
   /**
    * Fetch jobs from Ashby API
    *
-   * @return array|WP_Error Jobs data or error
+   * @return array<string, mixed>|\WP_Error Jobs data or error
    */
-  public function fetch_jobs()
+  public function fetch_jobs(): array|\WP_Error
   {
     // Check cache first
     $cached_data = get_transient(self::CACHE_KEY);
@@ -128,10 +117,10 @@ class AshbyJobsAPI
   /**
    * Format job data for consistent output
    *
-   * @param array $job Raw job data
-   * @return array Formatted job data
+   * @param array<string, mixed> $job Raw job data
+   * @return array<string, mixed> Formatted job data
    */
-  public function format_job($job)
+  public function format_job(array $job): array
   {
     return array(
       'id' => isset($job['id']) ? $job['id'] : wp_generate_uuid4(),
@@ -152,13 +141,7 @@ class AshbyJobsAPI
     );
   }
 
-  /**
-   * Format employment type for display
-   *
-   * @param string $type Raw employment type
-   * @return string Formatted employment type
-   */
-  private function format_employment_type($type)
+  private function format_employment_type(string $type): string
   {
     $types = array(
       'FullTime' => __('Full-time', 'ashby-jobs'),
@@ -172,12 +155,10 @@ class AshbyJobsAPI
   }
 
   /**
-   * Get unique departments from jobs
-   *
-   * @param array $jobs Jobs array
-   * @return array Unique departments
+   * @param array<int, array<string, mixed>> $jobs
+   * @return array<int, string>
    */
-  public function get_departments($jobs)
+  public function get_departments(array $jobs): array
   {
     $departments = array();
 
@@ -192,12 +173,10 @@ class AshbyJobsAPI
   }
 
   /**
-   * Get unique locations from jobs
-   *
-   * @param array $jobs Jobs array
-   * @return array Unique locations
+   * @param array<int, array<string, mixed>> $jobs
+   * @return array<int, string>
    */
-  public function get_locations($jobs)
+  public function get_locations(array $jobs): array
   {
     $locations = array();
 
@@ -212,12 +191,10 @@ class AshbyJobsAPI
   }
 
   /**
-   * Get unique employment types from jobs
-   *
-   * @param array $jobs Jobs array
-   * @return array Unique employment types
+   * @param array<int, array<string, mixed>> $jobs
+   * @return array<int, string>
    */
-  public function get_employment_types($jobs)
+  public function get_employment_types(array $jobs): array
   {
     $types = array();
 
@@ -232,13 +209,11 @@ class AshbyJobsAPI
   }
 
   /**
-   * Filter jobs by criteria
-   *
-   * @param array $jobs Jobs array
-   * @param array $filters Filter criteria
-   * @return array Filtered jobs
+   * @param array<int, array<string, mixed>> $jobs
+   * @param array<string, mixed> $filters
+   * @return array<int, array<string, mixed>>
    */
-  public function filter_jobs($jobs, $filters = array())
+  public function filter_jobs(array $jobs, array $filters = []): array
   {
     if (empty($filters)) {
       return $jobs;
@@ -296,12 +271,7 @@ class AshbyJobsAPI
     });
   }
 
-  /**
-   * Check if cache exists (without triggering a fetch)
-   *
-   * @return bool True if cache exists
-   */
-  public function has_cache()
+  public function has_cache(): bool
   {
     $cached_data = get_transient(self::CACHE_KEY);
     $cache_timestamp = get_transient(self::CACHE_KEY . '_timestamp');
@@ -309,22 +279,12 @@ class AshbyJobsAPI
     return ($cached_data !== false && $cache_timestamp !== false);
   }
 
-  /**
-   * Get cache creation timestamp
-   *
-   * @return int|false Cache creation timestamp or false if not cached
-   */
-  public function get_cache_timestamp()
+  public function get_cache_timestamp(): int|false
   {
     return get_transient(self::CACHE_KEY . '_timestamp');
   }
 
-  /**
-   * Get cache expiration time
-   *
-   * @return int|false Expiration timestamp or false if not cached
-   */
-  public function get_cache_expiration()
+  public function get_cache_expiration(): int|false
   {
     $cached_data = get_transient(self::CACHE_KEY);
     if ($cached_data === false) {
@@ -339,10 +299,7 @@ class AshbyJobsAPI
     return $timestamp + $this->cache_duration;
   }
 
-  /**
-   * Clear cache
-   */
-  public function clear_cache()
+  public function clear_cache(): void
   {
     delete_transient(self::CACHE_KEY);
     delete_transient(self::CACHE_KEY . '_timestamp');

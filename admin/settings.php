@@ -2,7 +2,11 @@
 
 /**
  * Admin Settings Page
- * Enhanced UX version with better organization and styling
+ *
+ * Provides the WordPress admin interface for configuring the plugin.
+ *
+ * @package AshbyJobs
+ * @since 1.0.0
  */
 
 // Prevent direct access
@@ -10,21 +14,21 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-class AshbyJobsSettings
+/**
+ * Registers plugin settings and renders the admin settings page.
+ *
+ * Handles API configuration, display options, and custom CSS.
+ *
+ * @since 1.0.0
+ */
+final class AshbyJobsSettings
 {
-
-  /**
-   * Constructor
-   */
   public function __construct()
   {
     add_action('admin_init', array($this, 'init_settings'));
   }
 
-  /**
-   * Initialize settings
-   */
-  public function init_settings()
+  public function init_settings(): void
   {
     // Register settings
     register_setting('ashby_jobs_settings', 'ashby_jobs_client_name', array(
@@ -135,44 +139,29 @@ class AshbyJobsSettings
     );
   }
 
-  /**
-   * API section callback
-   */
-  public function api_section_callback()
+  public function api_section_callback(): void
   {
     echo '<p>' . esc_html__('Configure your connection to the Ashby API. You can find your client name in your Ashby job board URL.', 'ashby-jobs') . '</p>';
   }
 
-  /**
-   * Display section callback
-   */
-  public function display_section_callback()
+  public function display_section_callback(): void
   {
     echo '<p>' . esc_html__('Customize how jobs are displayed on your website and what features are enabled for visitors.', 'ashby-jobs') . '</p>';
   }
 
-  /**
-   * Customization section callback
-   */
-  public function customization_section_callback()
+  public function customization_section_callback(): void
   {
     echo '<p>' . esc_html__('Add custom styling to match your site\'s design. CSS will be applied to all pages with job listings.', 'ashby-jobs') . '</p>';
   }
 
-  /**
-   * Client name field
-   */
-  public function client_name_field()
+  public function client_name_field(): void
   {
     $value = get_option('ashby_jobs_client_name', '');
     echo '<input type="text" id="ashby_jobs_client_name" name="ashby_jobs_client_name" value="' . esc_attr($value) . '" class="regular-text" placeholder="' . esc_attr__('yourcompany', 'ashby-jobs') . '" />';
     echo '<p class="description">' . esc_html__('Your Ashby client name (e.g., if your job board is at jobs.ashbyhq.com/yourcompany, enter "yourcompany").', 'ashby-jobs') . '</p>';
   }
 
-  /**
-   * Cache duration field
-   */
-  public function cache_duration_field()
+  public function cache_duration_field(): void
   {
     $value = get_option('ashby_jobs_cache_duration', 86400);
     $options = array(
@@ -191,40 +180,28 @@ class AshbyJobsSettings
     echo '<p class="description">' . esc_html__('How long to cache job data from Ashby. Shorter durations mean more up-to-date jobs but more API requests.', 'ashby-jobs') . '</p>';
   }
 
-  /**
-   * Include compensation field
-   */
-  public function include_compensation_field()
+  public function include_compensation_field(): void
   {
     $value = get_option('ashby_jobs_include_compensation', false);
     echo '<input type="checkbox" id="ashby_jobs_include_compensation" name="ashby_jobs_include_compensation" value="1" ' . checked(1, $value, false) . ' />';
     echo '<label for="ashby_jobs_include_compensation">' . esc_html__('Display salary and compensation information when available', 'ashby-jobs') . '</label>';
   }
 
-  /**
-   * Show job meta field
-   */
-  public function show_job_meta_field()
+  public function show_job_meta_field(): void
   {
     $value = get_option('ashby_jobs_show_job_meta', false);
     echo '<input type="checkbox" id="ashby_jobs_show_job_meta" name="ashby_jobs_show_job_meta" value="1" ' . checked(1, $value, false) . ' />';
     echo '<label for="ashby_jobs_show_job_meta">' . esc_html__('Display department, location, employment type, and remote status below job titles', 'ashby-jobs') . '</label>';
   }
 
-  /**
-   * Enable filters field
-   */
-  public function enable_filters_field()
+  public function enable_filters_field(): void
   {
     $value = get_option('ashby_jobs_enable_filters', true);
     echo '<input type="checkbox" id="ashby_jobs_enable_filters" name="ashby_jobs_enable_filters" value="1" ' . checked(1, $value, false) . ' />';
     echo '<label for="ashby_jobs_enable_filters">' . esc_html__('Allow users to filter jobs by department, location, and employment type', 'ashby-jobs') . '</label>';
   }
 
-  /**
-   * Custom CSS field
-   */
-  public function custom_css_field()
+  public function custom_css_field(): void
   {
     $value = get_option('ashby_jobs_custom_css', '');
     echo '<textarea id="ashby_jobs_custom_css" name="ashby_jobs_custom_css" rows="8" cols="80" class="large-text code">' . esc_textarea($value) . '</textarea>';
@@ -232,10 +209,7 @@ class AshbyJobsSettings
     echo '<p class="description"><strong>' . esc_html__('Example:', 'ashby-jobs') . '</strong> <code>.ashby-jobs-container { background: #f5f5f5; border-radius: 8px; }</code></p>';
   }
 
-  /**
-   * Sanitize cache duration
-   */
-  public function sanitize_cache_duration($input)
+  public function sanitize_cache_duration(mixed $input): int
   {
     $valid_durations = array(86400, 604800, 2592000); // 1 day, 1 week, 1 month
     $input = intval($input);
@@ -248,18 +222,12 @@ class AshbyJobsSettings
     return 86400;
   }
 
-  /**
-   * Sanitize checkbox
-   */
-  public function sanitize_checkbox($input)
+  public function sanitize_checkbox(mixed $input): int
   {
     return $input ? 1 : 0;
   }
 
-  /**
-   * Sanitize CSS
-   */
-  public function sanitize_css($input)
+  public function sanitize_css(mixed $input): string
   {
     // Strip all tags first
     $input = wp_strip_all_tags($input);
@@ -283,10 +251,7 @@ class AshbyJobsSettings
     return trim($input);
   }
 
-  /**
-   * Render admin page
-   */
-  public static function render_page()
+  public static function render_page(): void
   {
     // Handle cache clearing
     if (isset($_POST['clear_cache']) && isset($_POST['_wpnonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'clear_ashby_cache')) {
@@ -420,9 +385,9 @@ class AshbyJobsSettings
   }
 
   /**
-   * Get API status
+   * @return array<string, mixed>
    */
-  private static function get_api_status()
+  private static function get_api_status(): array
   {
     $api = new AshbyJobsAPI();
 
@@ -464,10 +429,7 @@ class AshbyJobsSettings
     return $status;
   }
 
-  /**
-   * Test API connection
-   */
-  private static function test_api_connection()
+  private static function test_api_connection(): string
   {
     if (!class_exists('AshbyJobsAPI')) {
       return esc_html__('Error: API class not found.', 'ashby-jobs');

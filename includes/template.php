@@ -2,7 +2,12 @@
 
 /**
  * Template Functions for Ashby Jobs
- * Helper functions for displaying job data in themes
+ *
+ * Public API functions for theme developers to display and manipulate
+ * job data in custom templates.
+ *
+ * @package AshbyJobs
+ * @since 1.0.0
  */
 
 // Prevent direct access
@@ -13,10 +18,10 @@ if (!defined('ABSPATH')) {
 /**
  * Get all jobs from Ashby API
  *
- * @param array $filters Optional filters to apply
- * @return array|WP_Error Jobs array or error
+ * @param array<string, mixed> $filters Optional filters to apply
+ * @return array<int, array<string, mixed>>|\WP_Error Jobs array or error
  */
-function ashby_get_jobs($filters = array())
+function ashby_get_jobs(array $filters = []): array|\WP_Error
 {
   $api = new AshbyJobsAPI();
   $data = $api->fetch_jobs();
@@ -35,12 +40,10 @@ function ashby_get_jobs($filters = array())
 }
 
 /**
- * Display a single job
- *
- * @param array $job Job data
- * @param array $args Display arguments
+ * @param array<string, mixed> $job Job data
+ * @param array<string, mixed> $args Display arguments
  */
-function ashby_display_job($job, $args = array())
+function ashby_display_job(array $job, array $args = []): void
 {
   $defaults = array(
     'show_description' => true,
@@ -120,11 +123,9 @@ function ashby_display_job($job, $args = array())
 }
 
 /**
- * Display compensation information
- *
- * @param array $compensation Compensation data from Ashby
+ * @param array<string, mixed>|null $compensation Compensation data from Ashby
  */
-function ashby_display_compensation($compensation)
+function ashby_display_compensation(?array $compensation): void
 {
   if (empty($compensation)) {
     return;
@@ -150,11 +151,9 @@ function ashby_display_compensation($compensation)
 }
 
 /**
- * Get unique departments from current jobs
- *
- * @return array Departments list
+ * @return array<int, string>
  */
-function ashby_get_departments()
+function ashby_get_departments(): array
 {
   $api = new AshbyJobsAPI();
   $data = $api->fetch_jobs();
@@ -168,11 +167,9 @@ function ashby_get_departments()
 }
 
 /**
- * Get unique locations from current jobs
- *
- * @return array Locations list
+ * @return array<int, string>
  */
-function ashby_get_locations()
+function ashby_get_locations(): array
 {
   $api = new AshbyJobsAPI();
   $data = $api->fetch_jobs();
@@ -186,11 +183,9 @@ function ashby_get_locations()
 }
 
 /**
- * Get unique employment types from current jobs
- *
- * @return array Employment types list
+ * @return array<int, string>
  */
-function ashby_get_employment_types()
+function ashby_get_employment_types(): array
 {
   $api = new AshbyJobsAPI();
   $data = $api->fetch_jobs();
@@ -203,24 +198,16 @@ function ashby_get_employment_types()
   return $api->get_employment_types($jobs);
 }
 
-/**
- * Check if there are any jobs available
- *
- * @return bool True if jobs exist
- */
-function ashby_has_jobs()
+function ashby_has_jobs(): bool
 {
   $jobs = ashby_get_jobs();
   return !is_wp_error($jobs) && !empty($jobs);
 }
 
 /**
- * Get total count of available jobs
- *
- * @param array $filters Optional filters
- * @return int Number of jobs
+ * @param array<string, mixed> $filters
  */
-function ashby_get_jobs_count($filters = array())
+function ashby_get_jobs_count(array $filters = []): int
 {
   $jobs = ashby_get_jobs($filters);
 
@@ -231,14 +218,7 @@ function ashby_get_jobs_count($filters = array())
   return count($jobs);
 }
 
-/**
- * Format job publish date
- *
- * @param string $date_string ISO date string
- * @param string $format Date format (default: WordPress setting)
- * @return string Formatted date
- */
-function ashby_format_job_date($date_string, $format = '')
+function ashby_format_job_date(string $date_string, string $format = ''): string
 {
   if (empty($date_string)) {
     return '';
@@ -252,12 +232,9 @@ function ashby_format_job_date($date_string, $format = '')
 }
 
 /**
- * Generate job permalink for custom job pages
- *
- * @param array $job Job data
- * @return string Job URL
+ * @param array<string, mixed> $job
  */
-function ashby_get_job_permalink($job)
+function ashby_get_job_permalink(array $job): string
 {
   // Use Ashby's apply URL by default
   if (!empty($job['apply_url'])) {
@@ -274,11 +251,9 @@ function ashby_get_job_permalink($job)
 }
 
 /**
- * Display a jobs filter form
- *
- * @param array $args Filter form arguments
+ * @param array<string, mixed> $args
  */
-function ashby_display_filters($args = array())
+function ashby_display_filters(array $args = []): void
 {
   $defaults = array(
     'show_search' => true,
@@ -393,11 +368,9 @@ function ashby_display_filters($args = array())
 }
 
 /**
- * Display jobs list with optional filtering
- *
- * @param array $args Display arguments
+ * @param array<string, mixed> $args
  */
-function ashby_display_jobs_list($args = array())
+function ashby_display_jobs_list(array $args = []): void
 {
   $defaults = array(
     'limit' => 0,
@@ -469,30 +442,23 @@ function ashby_display_jobs_list($args = array())
 <?php
 }
 
-/**
- * Clear Ashby jobs cache
- */
-function ashby_clear_cache()
+function ashby_clear_cache(): void
 {
   $api = new AshbyJobsAPI();
   $api->clear_cache();
 }
 
-/**
- * Get cache expiration time
- *
- * @return int|false Expiration timestamp or false if not cached
- */
-function ashby_get_cache_expiration()
+function ashby_get_cache_expiration(): int|false
 {
   $api = new AshbyJobsAPI();
   return $api->get_cache_expiration();
 }
 
 /**
- * Hook for theme developers to modify job data before display
+ * @param array<string, mixed> $job
+ * @return array<string, mixed>
  */
-function ashby_format_job_for_display($job)
+function ashby_format_job_for_display(array $job): array
 {
   /**
    * Filter job data before display
@@ -503,12 +469,7 @@ function ashby_format_job_for_display($job)
   return apply_filters('ashby_jobs_format_job', $job);
 }
 
-/**
- * Get plugin version
- *
- * @return string Plugin version
- */
-function ashby_get_plugin_version()
+function ashby_get_plugin_version(): string
 {
   return ASHBY_JOBS_VERSION;
 }

@@ -3,15 +3,15 @@
 /**
  * Plugin Name: Ashby Jobs Integration
  * Description: Displays job postings from Ashby ATS with filtering functionality. Integrates seamlessly with your existing design.
- * Version: 1.4.0
+ * Version: 1.5.0
  * Author: Anvilo, Inc.
  * Author URI: https://anvilo.com
  * License: GPL v2 or later
  * Text Domain: ashby-jobs
  * Domain Path: /languages
- * Requires at least: 5.7
- * Requires PHP: 7.4
- * Tested up to: 6.5
+ * Requires at least: 6.0
+ * Requires PHP: 8.3
+ * Tested up to: 6.9
  */
 
 // Prevent direct access
@@ -20,26 +20,24 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('ASHBY_JOBS_VERSION', '1.4.0');
+define('ASHBY_JOBS_VERSION', '1.5.0');
 define('ASHBY_JOBS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ASHBY_JOBS_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('ASHBY_JOBS_PLUGIN_FILE', __FILE__);
 
 /**
- * Main plugin class
+ * Main plugin class using Singleton pattern.
+ *
+ * Handles plugin initialization, asset loading, activation/deactivation,
+ * and admin menu registration.
+ *
+ * @since 1.0.0
  */
-class AshbyJobsPlugin
+final class AshbyJobsPlugin
 {
+  private static ?self $instance = null;
 
-  /**
-   * Instance of this class
-   */
-  private static $instance = null;
-
-  /**
-   * Get instance
-   */
-  public static function get_instance()
+  public static function get_instance(): self
   {
     if (null === self::$instance) {
       self::$instance = new self();
@@ -47,9 +45,6 @@ class AshbyJobsPlugin
     return self::$instance;
   }
 
-  /**
-   * Constructor
-   */
   private function __construct()
   {
     add_action('init', array($this, 'init'));
@@ -67,10 +62,7 @@ class AshbyJobsPlugin
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'plugin_action_links'));
   }
 
-  /**
-   * Initialize plugin
-   */
-  public function init()
+  public function init(): void
   {
     // Load text domain for translations (required for plugins not hosted on WordPress.org).
     // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound
@@ -89,10 +81,7 @@ class AshbyJobsPlugin
     }
   }
 
-  /**
-   * Include required files
-   */
-  private function include_files()
+  private function include_files(): void
   {
     require_once ASHBY_JOBS_PLUGIN_DIR . 'includes/api.php';
     require_once ASHBY_JOBS_PLUGIN_DIR . 'includes/shortcode.php';
@@ -104,10 +93,7 @@ class AshbyJobsPlugin
     }
   }
 
-  /**
-   * Enqueue frontend scripts and styles
-   */
-  public function enqueue_scripts()
+  public function enqueue_scripts(): void
   {
     // Only load on pages that might have the shortcode
     if ($this->should_load_assets()) {
@@ -143,10 +129,7 @@ class AshbyJobsPlugin
     }
   }
 
-  /**
-   * Enqueue admin scripts and styles
-   */
-  public function admin_enqueue_scripts($hook)
+  public function admin_enqueue_scripts(string $hook): void
   {
     if ('settings_page_ashby-jobs' === $hook) {
       wp_enqueue_style(
@@ -158,10 +141,7 @@ class AshbyJobsPlugin
     }
   }
 
-  /**
-   * Check if we should load assets on current page
-   */
-  private function should_load_assets()
+  private function should_load_assets(): bool
   {
     global $post;
 
@@ -176,10 +156,7 @@ class AshbyJobsPlugin
     return false;
   }
 
-  /**
-   * Plugin activation
-   */
-  public function activate()
+  public function activate(): void
   {
     // Set default options
     add_option('ashby_jobs_client_name', '');
@@ -197,10 +174,7 @@ class AshbyJobsPlugin
     flush_rewrite_rules();
   }
 
-  /**
-   * Plugin deactivation
-   */
-  public function deactivate()
+  public function deactivate(): void
   {
     // Clear cache
     delete_transient('ashby_jobs_data');
@@ -210,10 +184,7 @@ class AshbyJobsPlugin
     flush_rewrite_rules();
   }
 
-  /**
-   * Add admin menu
-   */
-  public function add_admin_menu()
+  public function add_admin_menu(): void
   {
     add_options_page(
       __('Ashby Jobs Settings', 'ashby-jobs'),
@@ -224,10 +195,7 @@ class AshbyJobsPlugin
     );
   }
 
-  /**
-   * Admin page callback
-   */
-  public function admin_page()
+  public function admin_page(): void
   {
     if (class_exists('AshbyJobsSettings')) {
       AshbyJobsSettings::render_page();
@@ -235,9 +203,10 @@ class AshbyJobsPlugin
   }
 
   /**
-   * Add settings link to plugin actions
+   * @param array<string> $links
+   * @return array<string>
    */
-  public function plugin_action_links($links)
+  public function plugin_action_links(array $links): array
   {
     $settings_link = '<a href="' . admin_url('options-general.php?page=ashby-jobs') . '">' . __('Settings', 'ashby-jobs') . '</a>';
     array_unshift($links, $settings_link);
@@ -248,7 +217,7 @@ class AshbyJobsPlugin
 /**
  * Helper function to get plugin instance
  */
-function ashby_jobs()
+function ashby_jobs(): AshbyJobsPlugin
 {
   return AshbyJobsPlugin::get_instance();
 }

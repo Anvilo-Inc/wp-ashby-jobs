@@ -2,6 +2,9 @@
 
 /**
  * Ashby Jobs Shortcode Handler
+ *
+ * @package AshbyJobs
+ * @since 1.0.0
  */
 
 // Prevent direct access
@@ -9,25 +12,26 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-class AshbyJobsShortcode
+/**
+ * Registers and renders the [ashby_jobs] shortcode.
+ *
+ * Supports filtering, search, pagination, and multiple layout options.
+ *
+ * @since 1.0.0
+ */
+final class AshbyJobsShortcode
 {
-
-  /**
-   * Constructor
-   */
   public function __construct()
   {
     add_shortcode('ashby_jobs', array($this, 'render_shortcode'));
   }
 
   /**
-   * Render the shortcode
-   *
-   * @param array $atts Shortcode attributes
+   * @param array<string, mixed>|string $atts Shortcode attributes
    * @param string $content Shortcode content
    * @return string HTML output
    */
-  public function render_shortcode($atts, $content = '')
+  public function render_shortcode(array|string $atts, string $content = ''): string
   {
     // Parse shortcode attributes
     $atts = shortcode_atts(array(
@@ -155,13 +159,9 @@ class AshbyJobsShortcode
   }
 
   /**
-   * Render filter controls
-   *
-   * @param AshbyJobsAPI $api API instance
-   * @param array $jobs Jobs array
-   * @param bool $show_search Whether to show search
+   * @param array<int, array<string, mixed>> $jobs
    */
-  private function render_filters($api, $jobs, $show_search)
+  private function render_filters(AshbyJobsAPI $api, array $jobs, bool $show_search): void
   {
     $departments = $api->get_departments($jobs);
     $locations = $api->get_locations($jobs);
@@ -249,13 +249,9 @@ class AshbyJobsShortcode
   }
 
   /**
-   * Render a job card
-   *
-   * @param array $job Job data
-   * @param bool $show_compensation Whether to show compensation
-   * @param bool $show_job_meta Whether to show job metadata
+   * @param array<string, mixed> $job Job data
    */
-  private function render_job_card($job, $show_compensation = false, $show_job_meta = false)
+  private function render_job_card(array $job, bool $show_compensation = false, bool $show_job_meta = false): void
   {
   ?>
     <div class="ashby-job-card"
@@ -308,11 +304,9 @@ class AshbyJobsShortcode
   }
 
   /**
-   * Render compensation information
-   *
-   * @param array $compensation Compensation data
+   * @param array<string, mixed> $compensation
    */
-  private function render_compensation($compensation)
+  private function render_compensation(array $compensation): void
   {
     if (isset($compensation['compensationTierSummary'])) {
       echo '<strong>' . esc_html__('Compensation:', 'ashby-jobs') . '</strong> ';
@@ -320,10 +314,7 @@ class AshbyJobsShortcode
     }
   }
 
-  /**
-   * Render no jobs message
-   */
-  private function render_no_jobs()
+  private function render_no_jobs(): void
   {
   ?>
     <div class="ashby-jobs-empty">
@@ -333,10 +324,7 @@ class AshbyJobsShortcode
   <?php
   }
 
-  /**
-   * Render pagination
-   */
-  private function render_pagination()
+  private function render_pagination(): void
   {
   ?>
     <div class="ashby-jobs-pagination" style="display: none;">
@@ -345,13 +333,7 @@ class AshbyJobsShortcode
   <?php
   }
 
-  /**
-   * Render error message
-   *
-   * @param string $message Error message
-   * @return string HTML
-   */
-  private function render_error($message)
+  private function render_error(string $message): string
   {
     return '<div class="ashby-jobs-error"><p>' .
       /* translators: %s: error message */
@@ -360,12 +342,9 @@ class AshbyJobsShortcode
   }
 
   /**
-   * Add inline script for this shortcode instance
-   *
-   * @param string $instance_id Unique instance ID
-   * @param array $initial_filters Initial filter values
+   * @param array<string, mixed> $initial_filters
    */
-  private function add_inline_script($instance_id, $initial_filters)
+  private function add_inline_script(string $instance_id, array $initial_filters): void
   {
   ?>
     <script type="text/javascript">
